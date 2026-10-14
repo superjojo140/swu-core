@@ -16,8 +16,8 @@ export class SwuTable {
         });
     }
 
-    update(data: {}[]) {
-        this.table.replaceData(data);
+    async update(data: {}[]) {
+        await this.table.replaceData(data);
     }
 
 }
