@@ -33,6 +33,10 @@ export class SwuDom {
         SwuDom.listenersMap.set(elem, listeners);
     }
 
+    static addEventListenerAll(selector: string, eventType: string, callback: Function) {
+        SwuDom.querySelectorAll(selector).forEach(elem => SwuDom.addEventListener(elem, eventType, callback));
+    }
+
     static removeEventListener(target: HTMLElement | string, eventType?: string) {
         // Handle event listeners in a WeakMap
         let elem = (typeof target === "string") ? SwuDom.querySelector(target) : target;
@@ -54,6 +58,10 @@ export class SwuDom {
             }
             SwuDom.listenersMap.delete(elem);
         }
+    }
+
+    static removeEventListenerAll(selector: string, eventType?: string) {
+        SwuDom.querySelectorAll(selector).forEach(elem => SwuDom.removeEventListener(elem, eventType));
     }
 
     static slideUp = (target: HTMLElement | string, duration = 500) => {
@@ -129,16 +137,44 @@ export class SwuDom {
         }
     }
 
+    static slideUpAll(selector: string, duration = 500) {
+        SwuDom.querySelectorAll(selector).forEach(elem => SwuDom.slideUp(elem, duration));
+    }
+
+    static slideDownAll(selector: string, duration = 500) {
+        SwuDom.querySelectorAll(selector).forEach(elem => SwuDom.slideDown(elem, duration));
+    }
+
+    static slideToStateAll(selector: string, state: boolean, duration = 500) {
+        return state ? SwuDom.slideDownAll(selector, duration) : SwuDom.slideUpAll(selector, duration);
+    }
+
+    static slideToggleAll(selector: string, duration = 500) {
+        SwuDom.querySelectorAll(selector).forEach(elem => SwuDom.slideToggle(elem, duration));
+    }
+
     static show(selector: string) {
         SwuDom.querySelector(selector).style.removeProperty("display");
+    }
+
+    static showAll(selector: string) {
+        SwuDom.querySelectorAll(selector).forEach(elem => elem.style.removeProperty("display"));
     }
 
     static hide(selector: string) {
         SwuDom.querySelector(selector).style.display = "none";
     }
 
+    static hideAll(selector: string) {
+        SwuDom.querySelectorAll(selector).forEach(elem => elem.style.display = "none");
+    }
+
     static setVisibility(selector: string, state: boolean) {
         state ? SwuDom.show(selector) : SwuDom.hide(selector);
+    }
+
+    static setVisibilityAll(selector: string, state: boolean) {
+        state ? SwuDom.showAll(selector) : SwuDom.hideAll(selector);
     }
 
     /**
